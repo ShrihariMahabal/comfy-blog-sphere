@@ -6,6 +6,7 @@ import { Post } from "@/types";
 import PostCard from "@/components/PostCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
+import { Notebook } from "lucide-react";
 
 const HomePage = () => {
   const { toast } = useToast();
@@ -14,7 +15,6 @@ const HomePage = () => {
     queryFn: getAllPosts,
   });
 
-  // Move the error toast into useEffect to prevent render loop
   useEffect(() => {
     if (error) {
       toast({
@@ -27,7 +27,15 @@ const HomePage = () => {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="font-serif text-4xl font-bold mb-8">Recent Posts</h1>
+      <div className="text-center mb-12 bg-gradient-to-r from-primary/10 to-primary/5 py-12 rounded-xl">
+        <h1 className="font-serif text-4xl font-bold mb-4 text-primary">
+          Recent Posts
+        </h1>
+        <p className="text-muted-foreground flex items-center justify-center gap-2">
+          <Notebook size={20} className="text-primary/70" />
+          Discover, Read, Inspire
+        </p>
+      </div>
       
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -46,8 +54,8 @@ const HomePage = () => {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
-          <h3 className="text-2xl font-serif mb-2">No posts found</h3>
+        <div className="text-center py-12 bg-secondary/10 rounded-xl">
+          <h3 className="text-2xl font-serif mb-2 text-primary">No posts found</h3>
           <p className="text-muted-foreground">Be the first to create a post!</p>
         </div>
       )}
