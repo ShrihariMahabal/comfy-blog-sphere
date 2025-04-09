@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams, Link } from "react-router-dom";
@@ -30,7 +29,6 @@ const PostPage = () => {
     queryFn: () => getPostById(id!),
   });
 
-  // Move the error toast into useEffect to prevent render loop
   useEffect(() => {
     if (error) {
       toast({
@@ -63,10 +61,7 @@ const PostPage = () => {
     }
   };
 
-  // Generate a consistent image for the post based on post title
-  const getPostImage = (title: string) => {
-    return `https://source.unsplash.com/random/1200x600/?blog,${title.split(' ')[0]}`;
-  };
+  const blogImage = "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop";
 
   return (
     <div className="max-w-4xl mx-auto animate-fade-in">
@@ -138,8 +133,8 @@ const PostPage = () => {
           
           <div className="rounded-lg overflow-hidden mb-8">
             <img 
-              src={getPostImage(post.title)} 
-              alt={post.title} 
+              src={blogImage} 
+              alt="Notebook with coffee" 
               className="w-full h-64 md:h-80 object-cover"
             />
           </div>
