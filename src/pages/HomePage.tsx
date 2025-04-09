@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPosts } from "@/lib/api";
 import { Post } from "@/types";
@@ -13,13 +14,16 @@ const HomePage = () => {
     queryFn: getAllPosts,
   });
 
-  if (error) {
-    toast({
-      title: "Error",
-      description: "Failed to load posts. Please try again later.",
-      variant: "destructive",
-    });
-  }
+  // Move the error toast into useEffect to prevent render loop
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load posts. Please try again later.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
 
   return (
     <div className="animate-fade-in">

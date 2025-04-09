@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -25,6 +24,16 @@ const EditPost = () => {
     queryKey: ["post", id],
     queryFn: () => getPostById(id!),
   });
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load post. It may have been deleted or does not exist.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
 
   useEffect(() => {
     if (post) {
@@ -80,14 +89,6 @@ const EditPost = () => {
       setIsSubmitting(false);
     }
   };
-
-  if (error) {
-    toast({
-      title: "Error",
-      description: "Failed to load post. It may have been deleted or does not exist.",
-      variant: "destructive",
-    });
-  }
 
   return (
     <div className="max-w-2xl mx-auto animate-fade-in">

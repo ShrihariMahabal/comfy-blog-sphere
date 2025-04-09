@@ -1,4 +1,5 @@
 
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getPostById, deletePost } from "@/lib/api";
@@ -17,7 +18,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Edit, Trash2, ArrowLeft } from "lucide-react";
-import { useState } from "react";
 
 const PostPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,6 +29,17 @@ const PostPage = () => {
     queryKey: ["post", id],
     queryFn: () => getPostById(id!),
   });
+
+  // Move the error toast into useEffect to prevent render loop
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load post. It may have been deleted or does not exist.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
 
   const handleDelete = async () => {
     if (!id) return;
@@ -51,14 +62,6 @@ const PostPage = () => {
       setIsDeleting(false);
     }
   };
-
-  if (error) {
-    toast({
-      title: "Error",
-      description: "Failed to load post. It may have been deleted or does not exist.",
-      variant: "destructive",
-    });
-  }
 
   return (
     <div className="max-w-3xl mx-auto animate-fade-in">
