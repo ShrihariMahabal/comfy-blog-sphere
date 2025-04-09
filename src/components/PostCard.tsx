@@ -14,8 +14,19 @@ const PostCard = ({ post }: PostCardProps) => {
     ? post.content.substring(0, 150) + "..." 
     : post.content;
 
+  // Generate a consistent image for each post based on post title
+  const imageIndex = Math.abs(post.title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 5) + 1;
+  const imagePath = `https://source.unsplash.com/random/800x600/?blog,${post.title.split(' ')[0]}`;
+
   return (
-    <Card className="h-full flex flex-col transition-all hover:shadow-lg hover:scale-[1.02] group">
+    <Card className="h-full flex flex-col transition-all hover:shadow-lg hover:scale-[1.02] group overflow-hidden border border-border/60">
+      <div className="overflow-hidden h-48">
+        <img 
+          src={imagePath} 
+          alt={post.title} 
+          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
       <Link to={`/posts/${post._id}`} className="flex-grow">
         <CardHeader>
           <CardTitle className="font-serif line-clamp-2 group-hover:text-primary transition-colors">

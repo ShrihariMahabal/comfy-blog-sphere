@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,4 +99,50 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom additions for BlogSphere */
+.prose p {
+  @apply my-4 leading-relaxed;
+}
+
+.prose h2 {
+  @apply text-2xl font-serif font-bold mt-8 mb-4;
+}
+
+.prose h3 {
+  @apply text-xl font-serif font-bold mt-6 mb-3;
+}
+
+.prose ul {
+  @apply list-disc pl-6 my-4;
+}
+
+.prose ol {
+  @apply list-decimal pl-6 my-4;
+}
+
+.prose a {
+  @apply text-primary underline underline-offset-2 hover:text-primary/80 transition-colors;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-primary/30 pl-4 italic my-6;
+}
+
+/* Additional animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
 }

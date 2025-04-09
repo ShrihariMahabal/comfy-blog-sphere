@@ -1,5 +1,6 @@
+
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getPostById, updatePost } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
@@ -8,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PenLine, Save, ArrowLeft } from "lucide-react";
 
 const EditPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -91,8 +93,30 @@ const EditPost = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto animate-fade-in">
-      <h1 className="font-serif text-4xl font-bold mb-8">Edit Post</h1>
+    <div className="max-w-3xl mx-auto animate-fade-in">
+      <Link to={`/posts/${id}`} className="flex items-center text-sm text-muted-foreground hover:text-foreground mb-6">
+        <ArrowLeft size={16} className="mr-1" />
+        Back to post
+      </Link>
+
+      {/* Header with illustration */}
+      <div className="mb-8 pb-8 border-b">
+        <div className="flex flex-col md:flex-row items-center gap-6">
+          <div className="md:w-1/3">
+            <img 
+              src="https://illustrations.popsy.co/amber/designer.svg" 
+              alt="Edit Post" 
+              className="w-40 h-auto mx-auto md:w-full"
+            />
+          </div>
+          <div className="md:w-2/3 text-center md:text-left">
+            <h1 className="font-serif text-4xl font-bold mb-3">Edit Post</h1>
+            <p className="text-muted-foreground">
+              Refine and improve your story. Make it shine!
+            </p>
+          </div>
+        </div>
+      </div>
       
       {isLoading ? (
         <div className="space-y-6">
@@ -103,7 +127,10 @@ const EditPost = () => {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-base">Title</Label>
+            <Label htmlFor="title" className="text-base flex items-center gap-2">
+              <PenLine size={16} className="text-primary" />
+              Title
+            </Label>
             <Input
               id="title"
               name="title"
@@ -111,7 +138,7 @@ const EditPost = () => {
               onChange={handleChange}
               placeholder="Enter post title"
               required
-              className="text-lg"
+              className="text-lg border-primary/20 focus-visible:ring-primary/30"
             />
           </div>
           
@@ -123,6 +150,7 @@ const EditPost = () => {
               value={formData.author}
               onChange={handleChange}
               placeholder="Anonymous"
+              className="border-primary/20 focus-visible:ring-primary/30"
             />
           </div>
           
@@ -136,19 +164,30 @@ const EditPost = () => {
               placeholder="Write your blog post here..."
               required
               rows={12}
+              className="min-h-[300px] border-primary/20 focus-visible:ring-primary/30"
             />
           </div>
           
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-4 pt-4">
             <Button 
               type="button" 
               variant="outline"
               onClick={() => navigate(`/posts/${id}`)}
+              className="border-primary/20 hover:border-primary/40"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save Changes"}
+            <Button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 gap-2"
+            >
+              {isSubmitting ? "Saving..." : (
+                <>
+                  <Save size={16} />
+                  Save Changes
+                </>
+              )}
             </Button>
           </div>
         </form>
