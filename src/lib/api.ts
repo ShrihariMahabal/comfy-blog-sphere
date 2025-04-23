@@ -6,7 +6,7 @@ interface Post {
   author: string;
 }
 
-const API_URL = "http://localhost:5000";
+const API_URL = "http://127.0.0.1:5000";
 
 export async function getAllPosts(): Promise<Post[]> {
   const response = await fetch(`${API_URL}/posts`);
